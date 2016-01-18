@@ -16,13 +16,20 @@ using System.Windows.Shapes;
 namespace SmartEL.UI
 {
     /// <summary>
-    /// Page1.xaml 的交互逻辑
+    /// DevicePage.xaml 的交互逻辑
     /// </summary>
-    public partial class Page1 : Page
+    public partial class DevicePage : System.Windows.Controls.Page
     {
-        public Page1()
+        private Frame pageFrame;
+
+        public DevicePage()
         {
             InitializeComponent();
+        }
+
+        public DevicePage(Frame pageFrame)
+        {
+            this.pageFrame = pageFrame;
         }
     }
 }
