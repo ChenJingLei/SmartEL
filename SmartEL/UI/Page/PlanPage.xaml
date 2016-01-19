@@ -8,15 +8,13 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Width="714.259"
-      Height="474"
+      Height="560"
       Title="PlanPage" Loaded="Page_Loaded">
 
     <Grid Name="PlanGrid">
 
-
-
-        <Button Name="BtnStart" Content="计划开始" HorizontalAlignment="Left" Margin="173,324,0,0" VerticalAlignment="Top" Width="75" Click="BtnStart_Click"/>
-        <Button Name="BtnStop" Content="计划结束" HorizontalAlignment="Left" Margin="444,324,0,0" VerticalAlignment="Top" Width="74" Click="BtnStop_Click" Background="#FF017BCD"/>
+        <Button Name="BtnStart" Content="计划开始" HorizontalAlignment="Left" Margin="175,440,0,0" VerticalAlignment="Top" Width="75" Click="BtnStart_Click"/>
+        <Button Name="BtnStop" Content="计划结束" HorizontalAlignment="Left" Margin="444,440,0,0" VerticalAlignment="Top" Width="74" Click="BtnStop_Click" Background="#FF017BCD"/>
         <ScrollViewer Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="64,24,56,177">
             <Grid x:Name="classPlans"  Height="291" Width="578"/>
         </ScrollViewer>

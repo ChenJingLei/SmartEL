@@ -7,11 +7,11 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Width="714.259"
-      Height="568"
-      Title="UserSetPage">
+      Height="560"
+      Title="UserSetPage" Loaded="Page_Loaded">
 
     <Grid Name="UserSetGrid">
-        <TabControl Width="582" Margin="62,70,62,-61">
+        <TabControl Width="582" Margin="66,0,66,9">
             <TabItem Header="时间设置">
                 <DockPanel Margin="0,0,0,-65">
                     <ScrollViewer HorizontalAlignment="Left" Height="421" VerticalAlignment="Top" Width="582" Margin="0,0,0,-39">
