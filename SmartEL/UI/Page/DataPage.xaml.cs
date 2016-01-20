@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Elysium.Controls;
+using SmartEL.Model;
+using SmartEL.SQL;
 
 namespace SmartEL.UI.Page
 {
@@ -22,21 +24,17 @@ namespace SmartEL.UI.Page
     public partial class DataPage
     {
         private Frame pageFrame;
-
+        private List<Classroom> allClassrooms;
         public DataPage()
         {
             InitializeComponent();
         }
 
-        public DataPage(Frame pageFrame)
+        public DataPage(Frame pageFrame, List<Classroom> allClassrooms)
         {
             InitializeComponent();
             this.pageFrame = pageFrame;
-        }
-
-        private void BtnTimeSubmit_Click(object sender, RoutedEventArgs e)
-        {
-
+            this.allClassrooms = allClassrooms;
         }
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
@@ -47,7 +45,20 @@ namespace SmartEL.UI.Page
                 button.Visibility = Visibility.Visible;
                 button.Click += BtnBack_Click;
             }
+
+            //获取所有教室
+            foreach (Classroom classroom in allClassrooms)
+            {
+                devicelist.Items.Add(classroom.Name);
+            }
         }
+
+        private void BtnTimeSubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {

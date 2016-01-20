@@ -34,6 +34,36 @@ namespace SmartEL.UI
             this.pageFrame = pageFrame;
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            CommandButton button = (pageFrame.Parent as Grid)?.FindName("BtnBack") as CommandButton;
+            if (button != null)
+            {
+                button.Visibility = Visibility.Visible;
+                button.Click += BtnBack_Click;
+            }
+
+            //设置控件
+            for (int j = 1; j <= 5; j++)
+            {
+                for (int k = 1; k <= 2; k++)
+                {
+                    ComboBox cB1 = UserSetGrid.FindName("D" + j + "H" + k) as ComboBox;
+                    for (int l = 0; l < 24; l++)
+                    {
+                        cB1.Items.Add(l.ToString("00"));
+                    }
+                    ComboBox cB2 = UserSetGrid.FindName("D" + j + "M" + k) as ComboBox;
+                    for (int l = 0; l < 60; l++)
+                    {
+                        cB2.Items.Add(l.ToString("00"));
+                    }
+                }
+            }
+        }
+
+
+
         private void BtnComfire_Click(object sender, RoutedEventArgs e)
         {
 
@@ -49,14 +79,6 @@ namespace SmartEL.UI
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            CommandButton button = (pageFrame.Parent as Grid)?.FindName("BtnBack") as CommandButton;
-            if (button != null)
-            {
-                button.Visibility = Visibility.Visible;
-                button.Click += BtnBack_Click;
-            }
-        }
+        
     }
 }

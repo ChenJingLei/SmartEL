@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ClassRoomPlan;
+using SmartEL.Model;
 
-namespace SmartEL
+
+namespace SmartEL.Event
 {
     public class ClassrooomEventArgs : EventArgs
     {

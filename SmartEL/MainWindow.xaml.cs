@@ -7,7 +7,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ClassRoomPlan;
+using SmartEL.Controls;
+using SmartEL.Model;
 using Visifire.Charts;
+using Classroom = ClassRoomPlan.Classroom;
 using Window = Elysium.Controls.Window;
 
 namespace SmartEL
@@ -18,11 +21,10 @@ namespace SmartEL
     public partial class MainWindow : Window
     {
         private DispatcherTimer ShowTimer;//获取当前时间，并显示
-        public event EventHandler<ClassrooomEventArgs> TimeToDo; //自定义一个事件，用于给设备发送信息
+//        public event EventHandler<ClassrooomEventArgs> TimeToDo; //自定义一个事件，用于给设备发送信息
         private ClassRoomPlanControl control;
         private List<Classroom> allClassrooms;
         private TaskScheduler task;
-        private StatisticsData statistics;
 
         public MainWindow()
         {
@@ -42,7 +44,7 @@ namespace SmartEL
             ShowTimer.Start();
             //获取所有教室信息
             allClassrooms = control.GetAllClassrooms();
-            statistics = new StatisticsData(allClassrooms, this);
+            
 
             //设置控件
             for (int j = 1; j <= 5; j++)
@@ -271,19 +273,7 @@ namespace SmartEL
             classDetail.Visibility = Visibility.Hidden;
         }
 
-        public void modifySatus(string classId, int isWork)
-        {
-            //WPF：Dispatcher.Invoke 方法，只有在其上创建 Dispatcher 的线程才可以直接访问DispatcherObject。若要从不同于在其上创建 DispatcherObject 的线程的某个线程访问 DispatcherObject，请对与 DispatcherObject 关联的 Dispatcher 调用 Invoke 或 BeginInvoke。需要强制线程安全的 DispatcherObject 的子类可以通过对所有公共方法调用 VerifyAccess 来强制线程安全。这样可以保证调用线程是在其上创建 DispatcherObject 的线程。
-            Dispatcher.Invoke(new Action(
-                delegate
-                {
-                    Button btn = classPlans.FindName(classId) as Button;
-
-                    btn.Background = isWork == 1 ? Brushes.Black : BtnStart.Background;
-                }
-                ));
-
-        }
+       
 
         public void modifyData(string classId, string data)
         {
@@ -327,7 +317,7 @@ namespace SmartEL
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
             //设置内容
-            int[] hms_config = Config.chcektime;
+            int[] hms_config = Config.Config.chcektime;
             
             //计划开始
             timeToOper.Tick += CurTimeToOper;
@@ -341,7 +331,7 @@ namespace SmartEL
 
 
             task = new TaskScheduler();
-            TimeToDo += task.TimeToDo;
+//            TimeToDo += task.TimeToDo;
 
 
             deviceTimer.Start();
@@ -360,7 +350,7 @@ namespace SmartEL
 
         private void DeviceStatus(object sender, EventArgs e)
         {
-            statistics.run();
+     
         }
 
         private void BtnStop_Click(object sender, RoutedEventArgs e)
@@ -382,18 +372,18 @@ namespace SmartEL
             Console.WriteLine(DateTime.Now.ToString("HH.mm"));
             double now = Convert.ToDouble(DateTime.Now.ToString("HH.mm"));
             int num = 0;
-            for (int i = 0; i < Config.course.Length / Config.course.Rank; i++)
+            for (int i = 0; i < Config.Config.course.Length / Config.Config.course.Rank; i++)
             {
-                if (Config.course[i, 0] < now && Config.course[i, 1] > now)
+                if (Config.Config.course[i, 0] < now && Config.Config.course[i, 1] > now)
                 {
                     num = i + 1;
                 }
             }
-            ClassrooomEventArgs args = new ClassrooomEventArgs();
-            args.Rooms = allClassrooms;
-            args.Num = num;
-
-            if (TimeToDo != null) TimeToDo(this, args);
+//            ClassrooomEventArgs args = new ClassrooomEventArgs();
+//            args.Rooms = allClassrooms;
+//            args.Num = num;
+//
+//            if (TimeToDo != null) TimeToDo(this, args);
         }
         
         #region testSPine
@@ -426,7 +416,7 @@ namespace SmartEL
                 time[1] = endDateTime.Text + " 23:59:00";
             }
 
-            object[] data = statistics.AnalystData(time, devicelist.Text);
+//            object[] data = statistics.AnalystData(time, devicelist.Text);
 
             Data.Children.Clear();
             CreateChartSpline(devicelist.Text + "教室温度、湿度、光照强度", LsTime, cherry, pineapple);
@@ -442,7 +432,7 @@ namespace SmartEL
             UserSetGrid.Visibility = Visibility.Visible;
 
             //解析刷新时间内容
-            int[] hms_config = Config.chcektime;
+            int[] hms_config = Config.Config.chcektime;
 
             for (int i = 0; i < hms_config.Length; i++)
             {
@@ -455,16 +445,16 @@ namespace SmartEL
             }
 
             //设置数据库的界面
-            db_address.Text = Config.dbserveraddress;
-            db_port.Text = Config.dbport;
-            db_username.Text = Config.dbuserID;
-            db_password.Password = Config.dbpassword;
+            db_address.Text = Config.Config.dbserveraddress;
+            db_port.Text = Config.Config.dbport;
+            db_username.Text = Config.Config.dbuserID;
+            db_password.Password = Config.Config.dbpassword;
 
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    string[] time = (Config.course[i, j].ToString("00.00")).Split('.');
+                    string[] time = (Config.Config.course[i, j].ToString("00.00")).Split('.');
 
                     ComboBox cB1 = UserSetGrid.FindName("D" + (i+1) + "H" + (j+1)) as ComboBox;
                     cB1.Text = time[0];
@@ -486,7 +476,7 @@ namespace SmartEL
                     ComboBox cB2 = UserSetGrid.FindName("D" + (i + 1) + "M" + (j + 1)) as ComboBox;
                     time += ("." + cB2.Text);
 
-                    Config.course[i, j] = Convert.ToDouble(time);
+                    Config.Config.course[i, j] = Convert.ToDouble(time);
                 }
             }
             int[] hms_config = default(int[]);
@@ -502,12 +492,12 @@ namespace SmartEL
                     hms_config = new[] {0, 0, int.Parse(refreshTime.Text)};
                     break;
             }
-            Config.chcektime = hms_config;
+            Config.Config.chcektime = hms_config;
 
-            Config.dbuserID = db_username.Text;
-            Config.dbpassword = db_password.Password;
-            Config.dbserveraddress = db_address.Text;
-            Config.dbport = db_port.Text;
+            Config.Config.dbuserID = db_username.Text;
+            Config.Config.dbpassword = db_password.Password;
+            Config.Config.dbserveraddress = db_address.Text;
+            Config.Config.dbport = db_port.Text;
 
 
             BtnBack.Visibility = Visibility.Hidden;

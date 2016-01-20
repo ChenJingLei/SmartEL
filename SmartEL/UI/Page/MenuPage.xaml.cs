@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SmartEL.Model;
+using SmartEL.SQL;
 
 namespace SmartEL.UI.Page
 {
@@ -21,28 +23,34 @@ namespace SmartEL.UI.Page
     public partial class MenuPage
     {
         private Frame pageFrame;
-
+        private List<Classroom> allClassrooms;
         public MenuPage(Frame pageContext)
         {
             InitializeComponent();
             this.pageFrame = pageContext;
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            ClassRoomRepository roomRepository = new ClassRoomRepository();
+            allClassrooms = roomRepository.FindAll();
+        }
+
         private void Btnplan_Click(object sender, RoutedEventArgs e)
         {
-            PlanPage planPage = new PlanPage(pageFrame);
+            PlanPage planPage = new PlanPage(pageFrame,allClassrooms);
             pageFrame.NavigationService.Navigate(planPage);
         }
 
         private void BtnData_Click(object sender, RoutedEventArgs e)
         {
-            DataPage dataPage = new DataPage(pageFrame);
+            DataPage dataPage = new DataPage(pageFrame, allClassrooms);
             pageFrame.NavigationService.Navigate(dataPage);
         }
 
         private void BtnDevice_Click(object sender, RoutedEventArgs e)
         {
-            DevicePage devicePage = new DevicePage(pageFrame);
+            DevicePage devicePage = new DevicePage(pageFrame, allClassrooms);
             pageFrame.NavigationService.Navigate(devicePage);
         }
 
@@ -51,5 +59,7 @@ namespace SmartEL.UI.Page
             UserSetPage userSetPage = new UserSetPage(pageFrame);
             pageFrame.NavigationService.Navigate(userSetPage);
         }
+
+       
     }
 }

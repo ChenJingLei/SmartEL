@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartEL
+namespace SmartEL.Config
 {
     class FileLog
     {
